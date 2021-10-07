@@ -30,5 +30,9 @@ public class Client {
 
         System.out.println(client.sendMessage("hello server"));
         System.out.println(client.sendMessage("hello"));
+        System.out.println(client.sendMessage("hell"));
+        System.out.println(client.sendMessage("!!"));
+        System.out.println(client.sendMessage("!"));
+        System.out.println(client.sendMessage("."));
     }
 }
