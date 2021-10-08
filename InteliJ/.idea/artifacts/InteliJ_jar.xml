@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="InteliJ:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/InteliJ_jar</output-path>
+    <root id="archive" name="InteliJ.jar">
+      <element id="module-output" name="InteliJ" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+    </root>
+  </artifact>
+</component>
