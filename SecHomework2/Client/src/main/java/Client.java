@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
+import java.time.ZoneId;
+import java.util.Locale;
 import java.util.Scanner;
 
 import static java.lang.System.console;
@@ -97,7 +99,16 @@ public class Client {
         while (true) {
             if (reader.hasNextLine()) {
                 String in = reader.nextLine();
-                String operation = client.sendMessage(in);
+                String operation = null;
+
+                if(in.toLowerCase().contains("time")){
+                    operation = client.sendMessage(in+" "+ ZoneId.systemDefault());
+                }
+                else{
+                    operation = client.sendMessage(in);
+                }
+
+
                 if (operation == null) {
                     System.out.println("server disconnect");
                     System.exit(0);

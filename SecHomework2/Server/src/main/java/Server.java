@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.zone.ZoneRules;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,6 +57,7 @@ public class Server {
                     }
 
                     if (status == 0) {
+                        System.out.println("0");
                             String[] input = operation.split(" ");
                             String zone_offset = input[1];
 
@@ -70,8 +72,12 @@ public class Server {
                         out.println("invalid input");
                     }
                     if (status == 2) {
+                        System.out.println("2");
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-                        LocalDateTime now = LocalDateTime.now();
+                        ZoneId zoneId = ZoneId.of(operation.split(" ")[1]);
+                        ZoneRules rules = zoneId.getRules();
+                        ZoneOffset standardOffset = rules.getStandardOffset(Instant.now());
+                        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC).plusSeconds(standardOffset.getTotalSeconds());
                         out.println(dtf.format(now));
                     }
 
@@ -92,13 +98,13 @@ public class Server {
 
     private static int checkOperation(String operation) {
         try {
-            String oper = operation.toLowerCase(Locale.ROOT);
-            if (oper.equals("time"))
+            String oper = operation.toLowerCase();
+            if (oper.contains("time") && oper.split(" ").length == 2)
                 return 2;
 
             String[] input = oper.split(" ");
 
-            if (!input[0].equals("time") || input.length > 2) {
+            if (!input[0].equals("time") || input.length > 3) {
                 return 1;
             }
             if (input[0].equals("time") && (input[1].charAt(0) == '+' || input[1].charAt(0) == '-') || input[1].charAt(0) == '0') {

@@ -18,20 +18,18 @@ public class ExitHandler extends Thread {
 
     public void run() {
         while (true) {
-            synchronized (out){
-                try {
+            try {
 //                    out.println("handle");
-                    String operation = in.readLine();
-                    if(operation == null){
-                        System.out.println("server disconnect");
-                        System.exit(0);
-                    }
-                }catch (IOException e){
+                String operation = in.readLine();
+                if (operation == null) {
                     System.out.println("server disconnect");
                     System.exit(0);
                 }
+            } catch (IOException e) {
+                System.out.println("server disconnect");
+                System.exit(0);
             }
-
         }
+
     }
 }
