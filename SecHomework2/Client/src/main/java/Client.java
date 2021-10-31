@@ -95,7 +95,6 @@ public class Client {
         handler.start();
 
         while (true) {
-            System.out.print("Client: ");
             if (reader.hasNextLine()) {
                 String in = reader.nextLine();
                 String operation = client.sendMessage(in);

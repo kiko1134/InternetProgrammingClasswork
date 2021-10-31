@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import static java.lang.System.*;
 
@@ -62,20 +63,20 @@ public class Server {
                             ZoneOffset zoneOffset = ZoneOffset.of(zone_offset);
                             OffsetTime time = OffsetTime.now(zoneOffset);
                             LocalTime l_time = time.toLocalTime();
-                            out.println("Server: " + dtf.format(l_time));
+                            out.println(dtf.format(l_time));
                     }
 
                     if (status == 1) {
-                        out.println("Server: invalid arguments");
+                        out.println("invalid input");
                     }
                     if (status == 2) {
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
                         LocalDateTime now = LocalDateTime.now();
-                        out.println("Server: " + dtf.format(now));
+                        out.println(dtf.format(now));
                     }
 
                     if (status == 3)
-                        out.println("Server: invalid time zone");
+                        out.println("invalid time zone");
 
                 }
 
@@ -91,26 +92,30 @@ public class Server {
 
     private static int checkOperation(String operation) {
         try {
-            if (operation.equals("time"))
+            String oper = operation.toLowerCase(Locale.ROOT);
+            if (oper.equals("time"))
                 return 2;
 
-            String[] input = operation.split(" ");
+            String[] input = oper.split(" ");
 
             if (!input[0].equals("time") || input.length > 2) {
                 return 1;
             }
-
-            if (input[1].charAt(0) != '+' && input[1].charAt(0) != '-') {
-                return 3;
-            }
-            if (input[0].equals("time") && (input[1].charAt(0) == '+' || input[1].charAt(0) != '-')) {
+            if (input[0].equals("time") && (input[1].charAt(0) == '+' || input[1].charAt(0) == '-') || input[1].charAt(0) == '0') {
                 try{
                     String zone_offset = input[1];
+                    if(zone_offset.charAt(4) != '0')
+                        return 3;
                     ZoneOffset zoneOffset = ZoneOffset.of(zone_offset);
+                    ZoneId zoneId = ZoneId.of(ZoneOffset.of(zone_offset).getId());
                 }catch (Exception e){return 1;}
 
 
             }
+            if (input[1].charAt(0) != '+' && input[1].charAt(0) != '-') {
+                return 3;
+            }
+
 
         } catch (Exception i) {
             i.printStackTrace();
