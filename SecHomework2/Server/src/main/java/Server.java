@@ -57,7 +57,6 @@ public class Server {
                     }
 
                     if (status == 0) {
-                        System.out.println("0");
                             String[] input = operation.split(" ");
                             String zone_offset = input[1];
 
@@ -72,7 +71,6 @@ public class Server {
                         out.println("invalid input");
                     }
                     if (status == 2) {
-                        System.out.println("2");
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
                         ZoneId zoneId = ZoneId.of(operation.split(" ")[1]);
                         ZoneRules rules = zoneId.getRules();
